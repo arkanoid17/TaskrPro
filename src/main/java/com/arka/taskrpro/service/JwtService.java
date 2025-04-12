@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Key;
 import java.time.LocalDateTime;
@@ -35,9 +36,9 @@ public class JwtService {
                 .compact();
     }
 
-    public boolean validateToken(String token,String userName){
+    public boolean validateToken(String token, UserDetails userDetails){
         String extractedUserName = extractUserName(token);
-        return extractedUserName.equals(userName) && !isTokenExpired(token);
+        return extractedUserName.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
 

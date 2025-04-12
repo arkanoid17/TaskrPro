@@ -1,5 +1,6 @@
 package com.arka.taskrpro.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -15,6 +16,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired
+    JwtFilter jwtFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
