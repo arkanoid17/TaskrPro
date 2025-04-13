@@ -30,7 +30,7 @@ public class Tenant {
     AppUser owner;
 
     @Column(name = "is_active")
-    boolean isActive;
+    Boolean isActive;
 
     @Column(name = "created_at")
     LocalDateTime createdAt;

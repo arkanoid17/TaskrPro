@@ -1,4 +1,4 @@
-package com.arka.taskrpro.service;
+package com.arka.taskrpro.service.impl;
 
 
 import com.arka.taskrpro.Constants;
@@ -8,14 +8,15 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Service
 public class JwtService {
 
     private Key getKey(){
@@ -23,9 +24,13 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(String username,String tenantId){
+    public String generateToken(Long id,String username,String tenantId){
+
         Map<String,Object> claims = new HashMap<>();
         claims.put("tenant-id",tenantId);
+        claims.put("user_id",id);
+        claims.put("user_email",username);
+
         return Jwts
                 .builder()
                 .setClaims(claims)

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class AppUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Column(name = "employee_id",nullable = false)
@@ -31,9 +31,9 @@ public class AppUser {
     private Role role;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tenant_id", nullable = false)
+    @JoinColumn(name = "tenant_id")
     private Tenant tenant;
 
     @Column(name = "is_active")
-    boolean isActive;
+    Boolean isActive;
 }
