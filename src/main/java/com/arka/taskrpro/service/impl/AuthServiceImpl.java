@@ -66,7 +66,9 @@ public class AuthServiceImpl implements AuthService {
                 .token(jwtService.generateToken(
                         user.getId(),
                         user.getEmail(),
-                        user.getTenant().getTenant_id())
+                        user.getTenant().getTenant_id(),
+                        user.getRole()
+                        )
                 )
                 .build();
 
