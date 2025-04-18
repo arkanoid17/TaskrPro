@@ -8,4 +8,5 @@ import com.arka.taskrpro.models.dto.AuthResponseDto;
 public interface AuthService {
     public AuthResponse login(AuthRequest request);
     public AuthResponse register(RegisterUserRequest request);
+    public AuthResponse getMe();
 }

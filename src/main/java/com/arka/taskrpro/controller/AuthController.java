@@ -18,10 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("auth")
@@ -53,6 +50,11 @@ public class AuthController {
     ResponseEntity<AuthResponseDto> registerUser(@Valid  @RequestBody RegisterUserRequestDto requestDto){
         AuthResponse response = authService.register(registerMapper.fromDto(requestDto));
         return ResponseEntity.ok(authResponseMapper.toDto(response));
+    }
+
+    @GetMapping("me")
+    ResponseEntity<AuthResponseDto> getMe(){
+        return ResponseEntity.ok(authResponseMapper.toDto(authService.getMe()));
     }
 
 }

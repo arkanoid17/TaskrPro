@@ -1,6 +1,7 @@
 package com.arka.taskrpro.service.impl;
 
 import com.arka.taskrpro.exceptions.AuthException;
+import com.arka.taskrpro.exceptions.UserException;
 import com.arka.taskrpro.models.domain.AuthRequest;
 import com.arka.taskrpro.models.domain.AuthResponse;
 import com.arka.taskrpro.models.domain.RegisterUserRequest;
@@ -11,6 +12,7 @@ import com.arka.taskrpro.models.entity.Tenant;
 import com.arka.taskrpro.repository.AppUserRepository;
 import com.arka.taskrpro.repository.TenantRepository;
 import com.arka.taskrpro.service.AuthService;
+import com.arka.taskrpro.utils.RequestContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -108,6 +110,24 @@ public class AuthServiceImpl implements AuthService {
                                 newUser.getEmail(),
                                 "",
                                 newUser.getRole()
+                        )
+                )
+                .build();
+    }
+
+    @Override
+    public AuthResponse getMe() {
+        Long userId = RequestContextHolder.getUserId();
+        AppUser user = userRepository.findById(userId).orElseThrow(()->new UserException("No user found!"));
+        return AuthResponse
+                .builder()
+                .user(user)
+                .token(
+                        jwtService.generateToken(
+                                user.getId(),
+                                user.getEmail(),
+                                user.getTenant().getTenant_id(),
+                                user.getRole()
                         )
                 )
                 .build();
