@@ -20,7 +20,6 @@ public class TenantDto {
     Long id;
     String tenant_id;
     String name;
-
     Boolean isActive;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
