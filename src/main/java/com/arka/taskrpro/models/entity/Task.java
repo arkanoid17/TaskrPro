@@ -50,4 +50,8 @@ public class Task {
     @Column(name = "tenant_id", nullable = false)
     private String tenantId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id")
+    private Project project;
+
 }
