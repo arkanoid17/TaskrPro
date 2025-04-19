@@ -50,4 +50,7 @@ public class Project {
 
     @Column
     private LocalDateTime updatedAt;
+
+    @Column
+    String tenantId;
 }

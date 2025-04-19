@@ -1,9 +1,6 @@
 package com.arka.taskrpro.controller;
 
-import com.arka.taskrpro.exceptions.AuthException;
-import com.arka.taskrpro.exceptions.TaskException;
-import com.arka.taskrpro.exceptions.TokenException;
-import com.arka.taskrpro.exceptions.UserException;
+import com.arka.taskrpro.exceptions.*;
 import com.arka.taskrpro.models.dto.ErrorDto;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +21,7 @@ public class ErrorController {
     public ResponseEntity<ErrorDto> badCredentialsError(AuthException ex){
         log.error("Caught error ",ex);
         ErrorDto error = ErrorDto.builder().statusCode(HttpStatus.NOT_FOUND.value()).message(ex.getMessage()).build();
-        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UserException.class)
@@ -39,7 +36,7 @@ public class ErrorController {
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(), error.getDefaultMessage())
         );
-        return new ResponseEntity<>(errors, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -48,7 +45,7 @@ public class ErrorController {
         ex.getConstraintViolations().forEach(violation ->
                 errors.put(violation.getPropertyPath().toString(), violation.getMessage())
         );
-        return new ResponseEntity<>(errors, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(TaskException.class)
@@ -60,6 +57,13 @@ public class ErrorController {
 
     @ExceptionHandler(TokenException.class)
     public ResponseEntity<ErrorDto> handleTokenException(TaskException ex){
+        log.error("Caught error ",ex);
+        ErrorDto error = ErrorDto.builder().statusCode(HttpStatus.FORBIDDEN.value()).message(ex.getMessage()).build();
+        return new ResponseEntity<>(error,HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(ProjectException.class)
+    public ResponseEntity<ErrorDto> handleProjectException(TaskException ex){
         log.error("Caught error ",ex);
         ErrorDto error = ErrorDto.builder().statusCode(HttpStatus.BAD_REQUEST.value()).message(ex.getMessage()).build();
         return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
