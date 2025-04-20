@@ -23,7 +23,6 @@ public class ProjectDto {
     private AppUserSummaryDto createdBy;
     private AppUserSummaryDto manager;
     private List<AppUserSummaryDto> members;
-    private List<TaskDto> tasks;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

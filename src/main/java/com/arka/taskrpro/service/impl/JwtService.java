@@ -45,8 +45,14 @@ public class JwtService {
     }
 
     public boolean validateToken(String token, UserDetails userDetails){
+        boolean expired = isTokenExpired(token);
+
+        if(expired){
+            throw new TokenException("Token has expired");
+        }
+
         String extractedUserName = extractUserName(token);
-        return extractedUserName.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        return extractedUserName.equals(userDetails.getUsername());
     }
 
     public Role extractRole(String token){

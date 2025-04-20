@@ -34,4 +34,11 @@ public class TaskCreateUpdateObj {
 
     private Long updatedBy;
 
+    @NotNull(message = "Please select for which project this task is for.")
+    private Long projectId;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
 }

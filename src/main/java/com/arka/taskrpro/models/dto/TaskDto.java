@@ -34,4 +34,10 @@ public class TaskDto {
 
     AppUserSummaryDto updatedBy;
 
+    LocalDateTime createdAt;
+
+    LocalDateTime updatedAt;
+
+    Long projectId;
+
 }

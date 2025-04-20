@@ -1,13 +1,17 @@
 package com.arka.taskrpro.models.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity(name = "tasks")
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Data
 public class Task {
@@ -53,5 +57,11 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
+
+    @Column
+    LocalDateTime createdAt;
+
+    @Column
+    LocalDateTime updatedAt;
 
 }
