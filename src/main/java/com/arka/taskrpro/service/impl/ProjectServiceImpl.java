@@ -2,7 +2,9 @@ package com.arka.taskrpro.service.impl;
 
 import com.arka.taskrpro.exceptions.ProjectException;
 import com.arka.taskrpro.exceptions.UserException;
+import com.arka.taskrpro.models.domain.AppUserSummary;
 import com.arka.taskrpro.models.domain.ProjectCreateUpdate;
+import com.arka.taskrpro.models.dto.AppUserSummaryDto;
 import com.arka.taskrpro.models.entity.AppUser;
 import com.arka.taskrpro.models.entity.Project;
 import com.arka.taskrpro.models.entity.Role;
@@ -11,9 +13,12 @@ import com.arka.taskrpro.repository.ProjectRepository;
 import com.arka.taskrpro.service.ProjectService;
 import com.arka.taskrpro.utils.RequestContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -66,5 +71,56 @@ public class ProjectServiceImpl implements ProjectService {
 
         return projectRepository.save(newProject);
 
+    }
+
+    @Override
+    public Page<Project> getProjects(Pageable pageable) {
+
+        String tenantId = RequestContextHolder.getTenantId();
+        Long userId = RequestContextHolder.getUserId();
+        AppUser user = userRepository.findById(userId).orElseThrow(()->new UserException("User not found!"));
+        Role role = RequestContextHolder.getRole();
+
+        switch (role){
+            case ADMIN -> {
+                return projectRepository.findAllProjectsByTenant(tenantId,pageable);
+            }
+            case MANAGER, MEMBER -> {
+                return projectRepository.findByMemberAndTenant(user,tenantId,pageable);
+            }
+
+        }
+
+        throw new ProjectException("You don't have permission to see projects");
+    }
+
+    @Override
+    public List<AppUserSummary> getUsersForProject(Long projectId) {
+
+      try{
+          Project project = getProjectDetailsById(projectId);
+
+          if(project.getMembers()!=null){
+              return project.getMembers()
+                      .stream()
+                      .map(user -> AppUserSummary
+                              .builder()
+                              .id(user.getId())
+                              .name(user.getName())
+                              .build()
+                      )
+                      .toList();
+          }
+      }catch (Exception e){
+          throw new ProjectException("Error fetching members!");
+      }
+
+
+        return new ArrayList<>();
+    }
+
+    @Override
+    public Project getProjectDetailsById(Long projectId) {
+        return  projectRepository.findById(projectId).orElseThrow(()->new ProjectException("Not a valid project!"));
     }
 }

@@ -7,6 +7,9 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring",unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AppUserSummaryMapper {
+
     public AppUserSummary fromDto(AppUserSummaryDto dto);
+
     public AppUserSummaryDto toDto(AppUserSummary appUserSummary);
+
 }

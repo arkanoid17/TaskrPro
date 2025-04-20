@@ -1,10 +1,8 @@
 package com.arka.taskrpro.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,10 +26,14 @@ public class Project {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private AppUser createdBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private AppUser manager;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -40,9 +42,13 @@ public class Project {
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<AppUser> members;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Task> tasks;
 
     @Column

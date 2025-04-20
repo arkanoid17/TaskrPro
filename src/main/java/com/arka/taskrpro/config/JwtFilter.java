@@ -1,5 +1,6 @@
 package com.arka.taskrpro.config;
 
+import com.arka.taskrpro.models.entity.Role;
 import com.arka.taskrpro.service.impl.JwtService;
 import com.arka.taskrpro.service.impl.MyUserDetailsService;
 import com.arka.taskrpro.utils.RequestContextHolder;
@@ -62,8 +63,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String tenantId = jwtService.extractTenantId(token);
         Long userId = jwtService.extractUserId(token);
+        Role role = jwtService.extractRole(token);
 
         RequestContextHolder.setTenantId(tenantId);
         RequestContextHolder.setUserId(userId);
+        RequestContextHolder.setRole(role);
     }
 }
