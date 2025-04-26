@@ -1,6 +1,7 @@
 package com.arka.taskrpro.models.dto;
 
 import com.arka.taskrpro.models.entity.AppUser;
+import com.arka.taskrpro.models.entity.TaskPriority;
 import com.arka.taskrpro.models.entity.TaskStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -23,6 +24,8 @@ public class TaskDto {
     String tenantId;
 
     TaskStatus status;
+
+    TaskPriority priority;
 
     LocalDateTime assignedCompleteDate;
 

@@ -64,4 +64,7 @@ public class Task {
     @Column
     LocalDateTime updatedAt;
 
+    @Enumerated(EnumType.STRING)
+    TaskPriority priority;
+
 }

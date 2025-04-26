@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 public interface TaskMapper {
 
     @Mapping(source = "project.id", target = "projectId")
+    @Mapping(source = "priority", target = "priority")
     TaskDto toDto(Task task);
     Task fromDto(TaskDto taskDto);
 

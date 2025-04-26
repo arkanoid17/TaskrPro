@@ -66,6 +66,7 @@ public class TaskServiceImpl  implements TaskService {
                 .updatedBy(user)
                 .assignedUsers(assignedUsers)
                 .tenantId(tenantId)
+                .priority(taskCreateUpdateObj.getPriority()==null?TaskPriority.LOW:taskCreateUpdateObj.getPriority())
                 .status(TaskStatus.PENDING)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
