@@ -2,6 +2,7 @@ package com.arka.taskrpro.controller;
 
 import com.arka.taskrpro.mapper.TaskMapper;
 import com.arka.taskrpro.models.domain.TaskCreateUpdateObj;
+import com.arka.taskrpro.models.domain.TaskFilters;
 import com.arka.taskrpro.models.dto.TaskDto;
 import com.arka.taskrpro.models.entity.Task;
 import com.arka.taskrpro.service.TaskService;
@@ -31,8 +32,8 @@ public class TaskController {
     }
 
     @GetMapping("list")
-    public ResponseEntity<Page<TaskDto>> getTasks(@RequestParam("projectId") Long projectId, Pageable pageable){
-        Page<Task> tasks = taskService.getTasks(projectId,pageable);
+    public ResponseEntity<Page<TaskDto>> getTasks(@RequestParam("projectId") Long projectId, TaskFilters taskFilters, Pageable pageable){
+        Page<Task> tasks = taskService.getTasks(projectId,taskFilters,pageable);
         return ResponseEntity.ok(taskMapper.getPageDto(tasks));
     }
 
